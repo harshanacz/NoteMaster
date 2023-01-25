@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notemaster/colors.dart';
+import 'package:notemaster/screens/edit_note.dart';
 import 'package:notemaster/screens/note_screen.dart';
 import 'package:notemaster/widgets/common/text_widget.dart';
 
@@ -87,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen>
                   Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CustomText(size: 20, text: "Create to-do list!"),
+                    children: const [
+                      CustomText(size: 20, text: "Create to-do list!"),
                       CustomText(
                           size: 17,
                           text: "Efficiently manage your tasks and goals")
@@ -145,7 +146,11 @@ class _HomeScreenState extends State<HomeScreen>
                                 color: whiteColor, size: 25),
                             title: const CustomText(
                                 size: 16.5, text: "Create a note"),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const AddEditNotePage(),
+                              ));
+                            },
                           ),
                           ListTile(
                             leading: const Icon(Icons.playlist_add_check,
@@ -190,18 +195,24 @@ class _HomeScreenState extends State<HomeScreen>
                 leading:
                     const Icon(Icons.star_border, color: whiteColor, size: 25),
                 title: const CustomText(size: 16.5, text: "My Favorites"),
+                trailing: const Icon(Icons.arrow_forward_ios,
+                    color: whiteColor, size: 20),
                 onTap: () => null,
               ),
               ListTile(
                 leading: const Icon(Icons.category_outlined,
                     color: whiteColor, size: 25),
                 title: const CustomText(size: 16.5, text: "Categories"),
+                trailing: const Icon(Icons.arrow_forward_ios,
+                    color: whiteColor, size: 20),
                 onTap: () => null,
               ),
               ListTile(
                 leading: const Icon(Icons.backup_outlined,
                     color: whiteColor, size: 25),
                 title: const CustomText(size: 16.5, text: "Backup notes"),
+                trailing: const Icon(Icons.arrow_forward_ios,
+                    color: whiteColor, size: 20),
                 onTap: () => null,
               ),
               Divider(color: whiteColor),
@@ -209,6 +220,8 @@ class _HomeScreenState extends State<HomeScreen>
                 leading: const Icon(Icons.settings_outlined,
                     color: whiteColor, size: 25),
                 title: const CustomText(size: 16.5, text: "Settings"),
+                trailing: const Icon(Icons.arrow_forward_ios,
+                    color: whiteColor, size: 20),
                 onTap: () => null,
               ),
               ListTile(
