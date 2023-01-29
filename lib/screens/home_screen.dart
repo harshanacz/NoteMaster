@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen>
             padding: const EdgeInsets.symmetric(horizontal: 10),
             height: appBarHeight,
             decoration: BoxDecoration(
-              color: iconBgcolor,
+              color: showSearch ? activeColor : iconBgcolor,
               borderRadius: BorderRadius.circular(15),
               boxShadow: const [
                 BoxShadow(

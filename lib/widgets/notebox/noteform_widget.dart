@@ -61,17 +61,17 @@ class NoteFormWidget extends StatelessWidget {
         initialValue: title,
         style: const TextStyle(
           fontFamily: "Montserrat",
-          color: Colors.white70,
-          fontWeight: FontWeight.bold,
-          fontSize: 24,
+          color: whiteColor,
+          fontSize: 22,
+          fontWeight: FontWeight.w400,
         ),
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Title',
           hintStyle: TextStyle(
             fontFamily: "Montserrat",
-            color: whiteColor,
-            fontSize: 20,
+            color: whiteColor2,
+            fontSize: 22,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -83,13 +83,18 @@ class NoteFormWidget extends StatelessWidget {
   Widget buildDescription() => TextFormField(
         initialValue: description,
         maxLines: 60,
-        style: TextStyle(color: Colors.white60, fontSize: 18),
+        style: const TextStyle(
+          fontFamily: "Montserrat",
+          color: whiteColor,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something...',
           hintStyle: TextStyle(
             fontFamily: "Montserrat",
-            color: Colors.white70,
+            color: whiteColor2,
             fontSize: 17,
             fontWeight: FontWeight.w400,
           ),
