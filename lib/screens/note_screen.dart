@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:notemaster/colors.dart';
 import 'package:notemaster/database/DB_provider.dart';
 import 'package:notemaster/models/note_model.dart';
+import 'package:notemaster/screens/edit_note.dart';
 import 'package:notemaster/screens/note_read_screen.dart';
 import 'package:notemaster/widgets/common/showSnackBar.dart';
 import 'package:notemaster/widgets/notebox/noteBox.dart';
 import '../widgets/common/text_widget.dart';
 
 class NoteScreen extends StatefulWidget {
-  const NoteScreen({super.key});
+  final bool isSearchBarShow;
+  const NoteScreen({super.key, required this.isSearchBarShow});
 
   @override
   State<NoteScreen> createState() => _NoteScreenState();
@@ -58,14 +59,50 @@ class _NoteScreenState extends State<NoteScreen> {
         itemCount: notes.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Align(
-                  alignment: Alignment.topLeft,
-                  child: CustomText(
-                      size: 17,
-                      text: "Your recent notes:",
-                      align: TextAlign.start)),
+            return Column(
+              children: [
+                widget.isSearchBarShow
+                    ? TextField(
+                        maxLines: 1,
+                        // autofocus: true,
+                        style: const TextStyle(
+                          fontFamily: "Montserrat",
+                          color: whiteColor2,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 30),
+                            border: InputBorder.none,
+                            hintText: "Search...",
+                            hintStyle: const TextStyle(
+                              fontFamily: "Montserrat",
+                              color: whiteColor2,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            filled: true,
+                            fillColor: iconBgcolor,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            )),
+                      )
+                    : const SizedBox(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: CustomText(
+                          size: 17,
+                          text: "Your recent notes:",
+                          align: TextAlign.start)),
+                ),
+              ],
             );
           } else {
             final note = notes[index - 1];
@@ -96,11 +133,11 @@ class _NoteScreenState extends State<NoteScreen> {
                                 await Navigator.of(context)
                                     .push(MaterialPageRoute(
                                   builder: (context) =>
-                                      NoteDetailPage(noteId: note.id!),
+                                      AddEditNotePage(note: note),
                                 ));
                               },
                             ),
-                            const Divider(color: Colors.white),
+                            const Divider(color: whiteColor2),
                             ListTile(
                               leading: const Icon(
                                 Icons.delete_outline,
@@ -120,15 +157,20 @@ class _NoteScreenState extends State<NoteScreen> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20.0)),
-                                      title: const CustomText(
+                                      title: CustomText(
                                         size: 20,
-                                        text: "Delete",
-                                        textColor: whiteColor,
+                                        text: note.isImportant == true
+                                            ? "Delete | important note"
+                                            : "Delete",
+                                        textColor: note.isImportant == true
+                                            ? Colors.red.shade700
+                                            : whiteColor,
                                       ),
-                                      content: const CustomText(
+                                      content: CustomText(
                                         size: 16.5,
-                                        text:
-                                            "Are you sure you want to delete this note?",
+                                        text: note.isImportant == true
+                                            ? "You have marked this note as important! Are you sure you want to delete this note?"
+                                            : "Are you sure you want to delete this note?",
                                         textColor: whiteColor,
                                         fontWeight: FontWeight.w400,
                                       ),

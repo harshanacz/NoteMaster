@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notemaster/colors.dart';
 import 'package:notemaster/screens/edit_note.dart';
 import 'package:notemaster/screens/note_screen.dart';
+import 'package:notemaster/screens/test_page.dart';
 import 'package:notemaster/widgets/common/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  bool showSearch = false;
   late TabController _tabController;
   bool _showMenu = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -82,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
                 controller: _tabController,
                 children: [
                   // first tab bar view widget
-                  NoteScreen(),
+                  NoteScreen(isSearchBarShow: showSearch),
 
                   // second tab bar view widget
                   Center(
@@ -264,10 +266,9 @@ class _HomeScreenState extends State<HomeScreen>
       actions: [
         InkWell(
           onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => StackOver()),
-            // );
+            setState(() {
+              showSearch = !showSearch;
+            });
           },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 8),

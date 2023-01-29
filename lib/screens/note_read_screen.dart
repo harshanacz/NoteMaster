@@ -43,6 +43,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: backgroundcolor,
         appBar: AppBar(
+          title: const CustomText(size: 20, text: "View note"),
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,

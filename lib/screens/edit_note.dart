@@ -3,6 +3,7 @@ import 'package:notemaster/colors.dart';
 import 'package:notemaster/database/DB_provider.dart';
 import 'package:notemaster/models/note_model.dart';
 import 'package:notemaster/screens/home_screen.dart';
+import 'package:notemaster/widgets/common/showSnackBar.dart';
 import 'package:notemaster/widgets/common/text_widget.dart';
 import 'package:notemaster/widgets/notebox/noteform_widget.dart';
 
@@ -59,6 +60,12 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
                 setState(() {
                   isImportant = !isImportant;
                 });
+                if (isImportant == true) {
+                  showSnackBar(context, "Added to Important, Save it.");
+                }
+                if (isImportant == false) {
+                  showSnackBar(context, "Remove from Important, Save it.");
+                }
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 8),
