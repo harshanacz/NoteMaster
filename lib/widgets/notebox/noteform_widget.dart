@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notemaster/colors.dart';
 
 class NoteFormWidget extends StatelessWidget {
   final bool? isImportant;
@@ -25,48 +26,54 @@ class NoteFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Switch(
-                    value: isImportant ?? false,
-                    onChanged: onChangedImportant,
-                  ),
-                  Expanded(
-                    child: Slider(
-                      value: (number ?? 0).toDouble(),
-                      min: 0,
-                      max: 5,
-                      divisions: 5,
-                      onChanged: (number) => onChangedNumber(number.toInt()),
-                    ),
-                  )
-                ],
-              ),
               buildTitle(),
-              SizedBox(height: 8),
-              buildDescription(),
-              SizedBox(height: 16),
+              const SizedBox(height: 8),
+              Container(child: buildDescription()),
+              const SizedBox(height: 16),
             ],
           ),
         ),
+        // Positioned(
+        //     right: 5,
+        //     bottom: 10,
+        //     child: IconButton(
+        //       icon: const Icon(
+        //         Icons.save_outlined,
+        //         color: Colors.white,
+        //         size: 25,
+        //       ),
+        //       onPressed: () {},
+        //     )
+        //     // Switch(
+        //     //   value: isImportant ?? false,
+        //     //   onChanged: onChangedImportant,
+        //     // ),
+        //     )
       );
 
   Widget buildTitle() => TextFormField(
+        autofocus: true,
         maxLines: 1,
         initialValue: title,
-        style: TextStyle(
+        style: const TextStyle(
+          fontFamily: "Montserrat",
           color: Colors.white70,
           fontWeight: FontWeight.bold,
           fontSize: 24,
         ),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Title',
-          hintStyle: TextStyle(color: Colors.white70),
+          hintStyle: TextStyle(
+            fontFamily: "Montserrat",
+            color: whiteColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
         ),
         validator: (title) =>
             title != null && title.isEmpty ? 'The title cannot be empty' : null,
@@ -74,13 +81,18 @@ class NoteFormWidget extends StatelessWidget {
       );
 
   Widget buildDescription() => TextFormField(
-        maxLines: 5,
         initialValue: description,
+        maxLines: 60,
         style: TextStyle(color: Colors.white60, fontSize: 18),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something...',
-          hintStyle: TextStyle(color: Colors.white60),
+          hintStyle: TextStyle(
+            fontFamily: "Montserrat",
+            color: Colors.white70,
+            fontSize: 17,
+            fontWeight: FontWeight.w400,
+          ),
         ),
         validator: (title) => title != null && title.isEmpty
             ? 'The description cannot be empty'

@@ -147,6 +147,9 @@ class _HomeScreenState extends State<HomeScreen>
                             title: const CustomText(
                                 size: 16.5, text: "Create a note"),
                             onTap: () {
+                              setState(() {
+                                _showMenu = !_showMenu;
+                              });
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => const AddEditNotePage(),
                               ));
@@ -251,6 +254,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   customAppBar() {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Image(
         image: const AssetImage("assets/logo.png"),
         height: appBarHeight * 0.75,

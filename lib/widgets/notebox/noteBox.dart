@@ -16,14 +16,13 @@ class NoteCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Pick colors from the accent colors based on index
-
-    final time = DateFormat.yMMMd().format(note.createdTime);
+    final time = DateFormat('hh:mm a, MMM dd').format(note.createdTime);
     String title = note.title;
     String dis = note.description;
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
+      constraints: const BoxConstraints(minHeight: 100),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: const BoxDecoration(
         color: drawerBackgroundcolor,
         // border: Border.all(color: Colors.black, width: 2),
@@ -40,7 +39,7 @@ class NoteCardWidget extends StatelessWidget {
                   size: 15.5,
                   fontWeight: FontWeight.w600,
                   text: title.length > 10
-                      ? '${title.substring(0, 15)}...'
+                      ? '${title.substring(0, 10)}...'
                       : title,
                 ),
                 CustomText(
@@ -59,39 +58,12 @@ class NoteCardWidget extends StatelessWidget {
                 textColor: whiteColor,
                 align: TextAlign.start,
                 size: 13,
-                text: dis.length > 70 ? '${dis.substring(0, 70)}...' : dis,
+                text: dis.length > 100 ? '${dis.substring(0, 100)}...' : dis,
               ),
             ),
           ],
         ),
       ),
     );
-
-    // Card(
-    //   color: whiteColor,
-    //   child: Container(
-    //     constraints: BoxConstraints(minHeight: minHeight),
-    //     padding: EdgeInsets.all(8),
-    //     child: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         Text(
-    //           time,
-    //           style: TextStyle(color: Colors.grey.shade700),
-    //         ),
-    //         SizedBox(height: 4),
-    //         Text(
-    //           note.title,
-    //           style: TextStyle(
-    //             color: Colors.black,
-    //             fontSize: 20,
-    //             fontWeight: FontWeight.bold,
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

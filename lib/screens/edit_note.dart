@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:notemaster/colors.dart';
 import 'package:notemaster/database/DB_provider.dart';
 import 'package:notemaster/models/note_model.dart';
+import 'package:notemaster/screens/home_screen.dart';
+import 'package:notemaster/widgets/common/text_widget.dart';
 import 'package:notemaster/widgets/notebox/noteform_widget.dart';
 
 class AddEditNotePage extends StatefulWidget {
@@ -21,6 +23,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   late int number;
   late String title;
   late String description;
+  var appBarHeight = AppBar().preferredSize.height;
 
   @override
   void initState() {
@@ -36,7 +39,79 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: backgroundcolor,
         appBar: AppBar(
-          actions: [buildButton()],
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 25,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          backgroundColor: appBarColor,
+          title: CustomText(
+              size: 20, text: title.isEmpty ? "Create note" : "Update note"),
+          actions: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  isImportant = !isImportant;
+                });
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: appBarHeight,
+                decoration: BoxDecoration(
+                  color: iconBgcolor,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 8),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                // ignore: sort_child_properties_last
+                child: Icon(
+                  isImportant ? Icons.star : Icons.star_border,
+                  color: isImportant ? Colors.amber : Colors.white,
+                  size: 25,
+                ),
+                alignment: Alignment.center,
+              ),
+            ),
+            InkWell(
+              onTap: addOrUpdateNote,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: appBarHeight,
+                decoration: BoxDecoration(
+                  color: iconBgcolor,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 8),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                // ignore: sort_child_properties_last
+                child: const Icon(
+                  Icons.save_outlined,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                alignment: Alignment.center,
+              ),
+            ),
+            // buildButton()
+          ],
         ),
         body: Form(
           key: _formKey,
@@ -55,22 +130,6 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
         ),
       );
 
-  Widget buildButton() {
-    final isFormValid = title.isNotEmpty && description.isNotEmpty;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.grey.shade700,
-        ),
-        onPressed: addOrUpdateNote,
-        child: Text('Save'),
-      ),
-    );
-  }
-
   void addOrUpdateNote() async {
     final isValid = _formKey.currentState!.validate();
 
@@ -83,7 +142,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
         await addNote();
       }
 
-      Navigator.of(context).pop();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     }
   }
 
@@ -101,7 +161,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   Future addNote() async {
     final note = Note(
       title: title,
-      isImportant: true,
+      isImportant: isImportant,
       number: number,
       description: description,
       createdTime: DateTime.now(),
