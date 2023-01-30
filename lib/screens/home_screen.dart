@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notemaster/colors.dart';
-import 'package:notemaster/screens/edit_note.dart';
-import 'package:notemaster/screens/note_screen.dart';
+import 'package:notemaster/screens/note_screens/edit_note.dart';
+import 'package:notemaster/screens/note_screens/note_screen.dart';
 import 'package:notemaster/screens/test_page.dart';
+import 'package:notemaster/screens/todo_screen/todo_mainscreen.dart';
 import 'package:notemaster/widgets/common/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: backgroundcolor,
       appBar: customAppBar(),
       endDrawer: customDrawer(),
-      floatingActionButton: customFloatingButton(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -87,16 +87,17 @@ class _HomeScreenState extends State<HomeScreen>
                   NoteScreen(isSearchBarShow: showSearch),
 
                   // second tab bar view widget
-                  Center(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      CustomText(size: 20, text: "Create to-do list!"),
-                      CustomText(
-                          size: 17,
-                          text: "Efficiently manage your tasks and goals")
-                    ],
-                  )),
+                  const TodoScreen()
+                  // Center(
+                  //     child: Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: const [
+                  //     CustomText(size: 20, text: "Create to-do list!"),
+                  //     CustomText(
+                  //         size: 17,
+                  //         text: "Efficiently manage your tasks and goals")
+                  //   ],
+                  // )),
                 ],
               ),
             ),
@@ -106,74 +107,74 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  customFloatingButton() {
-    return StatefulBuilder(
-      builder: (BuildContext context, setState) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                backgroundColor: iconBgcolor,
-                onPressed: () {
-                  setState(() {
-                    _showMenu = !_showMenu;
-                  });
-                },
-                child: Icon(
-                  !_showMenu ? Icons.add : Icons.arrow_downward_outlined,
-                  size: 28,
-                ),
-              ),
-            ),
-            _showMenu
-                ? Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    decoration: const BoxDecoration(
-                      color: drawerBackgroundcolor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                            leading: const Icon(Icons.note_add_outlined,
-                                color: whiteColor, size: 25),
-                            title: const CustomText(
-                                size: 16.5, text: "Create a note"),
-                            onTap: () {
-                              setState(() {
-                                _showMenu = !_showMenu;
-                              });
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const AddEditNotePage(),
-                              ));
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.playlist_add_check,
-                                color: whiteColor, size: 25),
-                            title: const CustomText(
-                                size: 16.5, text: "Create a to-do list"),
-                            onTap: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ],
-        );
-      },
-    );
-  }
+  // customFloatingButton() {
+  //   return StatefulBuilder(
+  //     builder: (BuildContext context, setState) {
+  //       return Column(
+  //         mainAxisAlignment: MainAxisAlignment.end,
+  //         children: <Widget>[
+  //           Container(
+  //             alignment: Alignment.bottomRight,
+  //             child: FloatingActionButton(
+  //               backgroundColor: iconBgcolor,
+  //               onPressed: () {
+  //                 setState(() {
+  //                   _showMenu = !_showMenu;
+  //                 });
+  //               },
+  //               child: Icon(
+  //                 !_showMenu ? Icons.add : Icons.arrow_downward_outlined,
+  //                 size: 28,
+  //               ),
+  //             ),
+  //           ),
+  //           _showMenu
+  //               ? Container(
+  //                   margin: const EdgeInsets.symmetric(
+  //                       horizontal: 30, vertical: 10),
+  //                   decoration: const BoxDecoration(
+  //                     color: drawerBackgroundcolor,
+  //                     borderRadius: BorderRadius.only(
+  //                         topLeft: Radius.circular(20),
+  //                         bottomLeft: Radius.circular(20),
+  //                         bottomRight: Radius.circular(20)),
+  //                   ),
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.all(8.0),
+  //                     child: Column(
+  //                       mainAxisSize: MainAxisSize.min,
+  //                       children: <Widget>[
+  //                         ListTile(
+  //                           leading: const Icon(Icons.note_add_outlined,
+  //                               color: whiteColor, size: 25),
+  //                           title: const CustomText(
+  //                               size: 16.5, text: "Create a note"),
+  //                           onTap: () {
+  //                             setState(() {
+  //                               _showMenu = !_showMenu;
+  //                             });
+  //                             Navigator.of(context).push(MaterialPageRoute(
+  //                               builder: (context) => const AddEditNotePage(),
+  //                             ));
+  //                           },
+  //                         ),
+  //                         ListTile(
+  //                           leading: const Icon(Icons.playlist_add_check,
+  //                               color: whiteColor, size: 25),
+  //                           title: const CustomText(
+  //                               size: 16.5, text: "Create a to-do list"),
+  //                           onTap: () {},
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 )
+  //               : const SizedBox.shrink(),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   customDrawer() {
     return Drawer(

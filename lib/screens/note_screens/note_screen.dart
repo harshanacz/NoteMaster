@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:notemaster/colors.dart';
 import 'package:notemaster/database/DB_provider.dart';
 import 'package:notemaster/models/note_model.dart';
-import 'package:notemaster/screens/edit_note.dart';
-import 'package:notemaster/screens/note_read_screen.dart';
+import 'package:notemaster/screens/note_screens/edit_note.dart';
+import 'package:notemaster/screens/note_screens/note_read_screen.dart';
 import 'package:notemaster/widgets/common/showSnackBar.dart';
 import 'package:notemaster/widgets/notebox/noteBox.dart';
 import 'package:sqflite/sqflite.dart';
-import '../widgets/common/text_widget.dart';
+import '../../widgets/common/text_widget.dart';
 
 class NoteScreen extends StatefulWidget {
   final bool isSearchBarShow;
@@ -37,36 +37,36 @@ class _NoteScreenState extends State<NoteScreen> {
     });
   }
 
-  _search(String query) async {
-    setState(() {
-      isLoadingSearch = true;
-    });
-    final result = await _database.query(
-      'notes',
-      where: 'title LIKE ?',
-      whereArgs: ['%$query%'],
-    );
-    var res = result.map((json) => Note.fromJson(json)).toList();
-    setState(() {
-      _searchResults = res;
+  // _search(String query) async {
+  //   setState(() {
+  //     isLoadingSearch = true;
+  //   });
+  //   final result = await _database.query(
+  //     'notes',
+  //     where: 'title LIKE ?',
+  //     whereArgs: ['%$query%'],
+  //   );
+  //   var res = result.map((json) => Note.fromJson(json)).toList();
+  //   setState(() {
+  //     _searchResults = res;
 
-      isLoadingSearch = false;
-      // _searchResults = result == null ? [] : result;
-    });
-  }
+  //     isLoadingSearch = false;
+  //     // _searchResults = result == null ? [] : result;
+  //   });
+  // }
 
   Future refreshNotes() async {
     setState(() => isLoading = true);
 
     notes = await NotesDatabase.instance.readAllNotes();
-    _searchResults = await NotesDatabase.instance.readAllNotes();
+    // _searchResults = notes;
 
     setState(() => isLoading = false);
   }
 
   @override
   void initState() {
-    _openDatabase();
+    // _openDatabase();
     refreshNotes();
     super.initState();
   }
@@ -79,30 +79,54 @@ class _NoteScreenState extends State<NoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      child: isLoading
-          ? const Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator(
-                    color: whiteColor,
-                  )),
-            )
-          : notes.isNotEmpty
-              ? buildNotes()
-              : Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.3,
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: isLoading
+              ? const Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(
+                        color: whiteColor,
+                      )),
+                )
+              : notes.isNotEmpty
+                  ? buildNotes()
+                  : Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                        ),
+                        const CustomText(
+                            size: 20, text: 'Create your first note!'),
+                        const CustomText(
+                            size: 17, text: "Organize your thoughts and ideas.")
+                      ],
                     ),
-                    const CustomText(size: 20, text: 'Create your first note!'),
-                    const CustomText(
-                        size: 17, text: "Organize your thoughts and ideas.")
-                  ],
-                ),
+        ),
+        Positioned(
+          bottom: 5,
+          right: 5,
+          child: Container(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              backgroundColor: iconBgcolor,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const AddEditNotePage(),
+                ));
+              },
+              child: const Icon(
+                Icons.add,
+                size: 28,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -125,7 +149,7 @@ class _NoteScreenState extends State<NoteScreen> {
                               if (text.isEmpty) {
                                 isNotSearched = true;
                               }
-                              _search(text);
+                              // _search(text);
                             },
                             maxLines: 1,
                             // autofocus: true,

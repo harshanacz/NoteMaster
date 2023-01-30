@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:notemaster/colors.dart';
 import 'package:notemaster/database/DB_provider.dart';
 import 'package:notemaster/models/note_model.dart';
-import 'package:notemaster/screens/edit_note.dart';
+import 'package:notemaster/screens/note_screens/edit_note.dart';
 import 'package:notemaster/widgets/common/showSnackBar.dart';
 import 'package:notemaster/widgets/common/text_widget.dart';
 
