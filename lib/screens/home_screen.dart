@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notemaster/colors.dart';
 import 'package:notemaster/screens/note_screens/edit_note.dart';
 import 'package:notemaster/screens/note_screens/note_screen.dart';
+import 'package:notemaster/screens/note_screens/search_notes.dart';
 import 'package:notemaster/screens/test_page.dart';
 import 'package:notemaster/screens/todo_screen/todo_mainscreen.dart';
 import 'package:notemaster/widgets/common/text_widget.dart';
@@ -15,9 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  bool showSearch = false;
   late TabController _tabController;
-  bool _showMenu = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var appBarHeight = AppBar().preferredSize.height;
 
@@ -82,12 +81,12 @@ class _HomeScreenState extends State<HomeScreen>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: [
+                children: const [
                   // first tab bar view widget
-                  NoteScreen(isSearchBarShow: showSearch),
+                  NoteScreen(),
 
                   // second tab bar view widget
-                  const TodoScreen()
+                  TodoScreen()
                   // Center(
                   //     child: Column(
                   //   mainAxisAlignment: MainAxisAlignment.center,
@@ -266,17 +265,17 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: appBarColor,
       actions: [
         InkWell(
-          onTap: () {
-            setState(() {
-              showSearch = !showSearch;
-            });
+          onTap: () async {
+            await Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const SearchNotes(),
+            ));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
             padding: const EdgeInsets.symmetric(horizontal: 10),
             height: appBarHeight,
             decoration: BoxDecoration(
-              color: showSearch ? activeColor : iconBgcolor,
+              color: iconBgcolor,
               borderRadius: BorderRadius.circular(15),
               boxShadow: const [
                 BoxShadow(
